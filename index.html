@@ -59,8 +59,8 @@
 
 <script>
 // New works: newest first. Each new drawing goes at the top of NEW_WORKS.
-// Old works: chronological, oldest first. Each added archival work goes at the
-// end of OLD_WORKS in its true chronological place. No work appears in both.
+// Old works: newest first. Each added archival work goes at the top of
+// OLD_WORKS, just below the newest works. No work appears in both.
 const NEW_WORKS = [
   { src: "images/the-trade.jpg",
     title: "The drawingaline hare learnt that the eyes are the window to the soul and changed their placement for more openness. AbsentlineD hare wanted to make the trade with googles and stumbled after. AbsentlineT hare amazed with the soulsight and rapidly rearranging.",
@@ -74,19 +74,32 @@ const NEW_WORKS = [
 ];
 
 const OLD_WORKS = [
-  { src: "images/nasturtiums.jpg", title: "Evening transformation of nasturtiums", meta: "Oil on wood, 1280×600, 2013" },
-  { src: "images/dead.jpg", title: "Dead or Nothing to lose", meta: "Oil on canvas, 500×400, 2013" },
-  { src: "images/upsidedown.jpg", title: "The world was turned upside down", meta: "Oil on canvas, 700×500, 2013" },
-  { src: "images/mercy.jpg", title: "Mercy", meta: "Oil on canvas, 500×400, 2013" },
-  { src: "images/dawn.jpg", title: "Dawn by the lake with sleeping moths", meta: "Oil and acrylic on canvas, 600×400, November 2013" },
-  { src: "images/siesta.jpg", title: "Siesta or the Falling Raven", meta: "Oil on canvas, 500×700, January 2014" },
-  { src: "images/crowd.jpg", title: "Screams of a crowd", meta: "Watercolor, wax and pastel on cardboard, 300×420, 2014" },
-  { src: "images/in-the-stardust.jpg", title: "In the stardust.", meta: "White pen on black cover stock, A4, November 2018" },
-  { src: "images/calligraphy.jpg", title: "Calligraphy of the seasons", meta: "Pastel on cardboard, 297×420, December 2019" },
-  { src: "images/refraction.jpg", title: "The refraction of light, or The flickering of a thousand faces in the wing of a dragonfly.", meta: "Pastel and acrylic on cardboard, 297×420, December 2019" },
-  { src: "images/butterfly.jpg", title: "Flickering of the iridescent blue in the sunlight or The butterfly effect.", meta: "Oil on canvas, 2024" },
-  { src: "images/pulsation.jpg", title: "Fast Moving Pulsation or No apologies! For Who Was Late?", meta: "Watercolors, pen, paper, June 15, 2024" },
-  { src: "images/self-analysis.jpg", title: "An Attempt At Self Analysis or A Self Portrait Bust", meta: "Watercolor, pen, paper, June 25, 2024" },
+  { src: "images/self-analysis.jpg", title: "An Attempt At Self Analysis or A Self Portrait Bust", meta: "Watercolor, pen, paper, June 25, 2024",
+    note: "A bust in the classic format — hollow crystal above, burning shoulders below; the sitter never appears." },
+  { src: "images/pulsation.jpg", title: "Fast Moving Pulsation or No apologies! For Who Was Late?", meta: "Watercolors, pen, paper, June 15, 2024",
+    note: "The coffee is served; the yellow disc hasn't woken up." },
+  { src: "images/butterfly.jpg", title: "Flickering of the iridescent blue in the sunlight or The butterfly effect.", meta: "Oil on canvas, 2024",
+    note: "The wings hint the flicker; the sunlight is flat, and the effect has no world." },
+  { src: "images/refraction.jpg", title: "The refraction of light, or The flickering of a thousand faces in the wing of a dragonfly.", meta: "Pastel and acrylic on cardboard, 297×420, December 2019",
+    note: "The faces are all in the flickering — none in the wing." },
+  { src: "images/calligraphy.jpg", title: "Calligraphy of the seasons", meta: "Pastel on cardboard, 297×420, December 2019",
+    note: "All the letters are here; the alphabet is not." },
+  { src: "images/in-the-stardust.jpg", title: "In the stardust.", meta: "White pen on black cover stock, A4, November 2018",
+    note: "The snail travels, but the distance does not change." },
+  { src: "images/crowd.jpg", title: "Screams of a crowd", meta: "Watercolor, wax and pastel on cardboard, 300×420, 2014",
+    note: "A crowd where everyone is alone." },
+  { src: "images/siesta.jpg", title: "Siesta or the Falling Raven", meta: "Oil on canvas, 500×700, January 2014",
+    note: "All the blaze of a midday sleep, with nothing asleep in it — only the raven, falling." },
+  { src: "images/dawn.jpg", title: "Dawn by the lake with sleeping moths", meta: "Oil and acrylic on canvas, 600×400, November 2013",
+    note: "The moths hang here in the dew-dusted grey — painted, and unseeable until sunrise." },
+  { src: "images/mercy.jpg", title: "Mercy", meta: "Oil on canvas, 500×400, 2013",
+    note: "Here, light leaves no place for shadow." },
+  { src: "images/upsidedown.jpg", title: "The world was turned upside down", meta: "Oil on canvas, 700×500, 2013",
+    note: "A woman, and a man who is only the lightning's continuation — visible while it strikes; the windmill stays a blue silhouette outside the flash." },
+  { src: "images/dead.jpg", title: "Dead or Nothing to lose", meta: "Oil on canvas, 500×400, 2013",
+    note: "The light never leaves the doorway." },
+  { src: "images/nasturtiums.jpg", title: "Evening transformation of nasturtiums", meta: "Oil on wood, 1280×600, 2013",
+    note: "The flowers were transformed on a found wooden door — a threshold the evening never opens." },
 ];
 
 const lb = document.getElementById('lightbox');
@@ -94,16 +107,24 @@ const lbImg = document.getElementById('lb-img');
 const lbTitle = document.getElementById('lb-title');
 const lbMeta = document.getElementById('lb-meta');
 
+function metaHTML(w) {
+  const parts = [];
+  if (w.meta) parts.push(w.meta);
+  if (w.note) parts.push('(' + w.note + ')');
+  return parts.join('<br>');
+}
+
 function render(works, gridId) {
   const grid = document.getElementById(gridId);
   works.forEach(w => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `<img src="${w.src}" alt="${w.title.replace(/"/g, '&quot;')}" loading="lazy"><h2>${w.title}</h2>${w.meta ? `<div class="meta">${w.meta}</div>` : ''}`;
+    const mh = metaHTML(w);
+    card.innerHTML = `<img src="${w.src}" alt="${w.title.replace(/"/g, '&quot;')}" loading="lazy"><h2>${w.title}</h2>${mh ? `<div class="meta">${mh}</div>` : ''}`;
     card.addEventListener('click', () => {
       lbImg.src = w.src; lbImg.alt = w.title;
       lbTitle.textContent = w.title;
-      lbMeta.textContent = w.meta || '';
+      lbMeta.innerHTML = metaHTML(w);
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
