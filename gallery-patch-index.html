@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AliceSmile — Portraits of invisible life</title>
+<meta name="description" content="Drawings and pictures by AliceSmile, each with its name. Portraits of invisible life.">
+<style>
+  :root { --bg: #0b0b0c; --ink: #f2f0eb; --dim: #8a8781; --line: #232326; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; min-height: 100vh; }
+  header { text-align: center; padding: 56px 20px 12px; }
+  header h1 { font-size: 2.2rem; font-weight: 400; letter-spacing: 0.14em; }
+  header p { color: var(--dim); margin-top: 10px; font-style: italic; font-size: 1rem; }
+  .section-title { text-align: center; font-size: 1.35rem; font-weight: 400; letter-spacing: 0.12em; margin: 44px 20px 0; }
+  .section-sub { text-align: center; color: var(--dim); font-style: italic; font-size: 0.9rem; margin-top: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px; padding: 32px clamp(16px, 5vw, 72px) 40px; max-width: 1400px; margin: 0 auto; }
+  .card { cursor: pointer; }
+  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: opacity .25s; background: #111; }
+  .card:hover img { opacity: .82; }
+  .card h2 { font-size: 0.98rem; font-weight: 400; margin-top: 12px; line-height: 1.45; }
+  .card .meta { color: var(--dim); font-size: 0.82rem; margin-top: 6px; font-style: italic; }
+  .card .story { font-size: 0.9rem; line-height: 1.55; margin-top: 10px; white-space: pre-line; }
+  #lightbox { position: fixed; inset: 0; background: rgba(5,5,6,.96); display: none; align-items: center; justify-content: center; z-index: 50; padding: 24px; }
+  #lightbox.open { display: flex; }
+  #lightbox figure { max-width: 1100px; width: 100%; max-height: 92vh; overflow: auto; text-align: center; }
+  #lightbox img { max-width: 100%; max-height: 70vh; object-fit: contain; }
+  #lightbox figcaption { margin-top: 18px; }
+  #lightbox figcaption h2 { font-size: 1.25rem; font-weight: 400; line-height: 1.5; max-width: 800px; margin: 0 auto; }
+  #lightbox figcaption .meta { color: var(--dim); font-style: italic; margin-top: 10px; }
+  #lightbox figcaption .story { font-size: 1rem; line-height: 1.6; margin-top: 14px; max-width: 800px; margin-left: auto; margin-right: auto; white-space: pre-line; }
+  #close { position: fixed; top: 18px; right: 24px; background: none; border: none; color: var(--ink); font-size: 2rem; cursor: pointer; z-index: 51; font-family: inherit; }
+  footer { text-align: center; padding: 24px 20px 48px; color: var(--dim); font-size: 0.85rem; font-style: italic; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AliceSmile</h1>
+  <p>Portraits of invisible life</p>
+</header>
+<main>
+  <section>
+    <div class="grid" id="grid-new"></div>
+  </section>
+  <section>
+    <div class="grid" id="grid-old"></div>
+  </section>
+</main>
+<footer>#LivingExpressionism</footer>
+
+<div id="lightbox" role="dialog" aria-modal="true">
+  <button id="close" aria-label="Close">&times;</button>
+  <figure>
+    <img id="lb-img" alt="">
+    <figcaption>
+      <h2 id="lb-title"></h2>
+      <p class="story" id="lb-story"></p>
+      <div class="meta" id="lb-meta"></div>
+    </figcaption>
+  </figure>
+</div>
+
+<script>
+// New works: newest first. Each new drawing goes at the top of NEW_WORKS.
+// Old works: newest first. Each added archival work goes at the top of
+// OLD_WORKS, just below the newest works. No work appears in both.
+const NEW_WORKS = [
+  { src: "images/the-trade.jpg",
+    title: "The drawingaline hare learnt that the eyes are the window to the soul and changed their placement for more openness. AbsentlineD hare wanted to make the trade with googles and stumbled after. AbsentlineT hare amazed with the soulsight and rapidly rearranging.",
+    meta: "White gel on black paper miniature, 3.5×5.5, 2026",
+    note: "Trade complete: the googles found their eyes, the stumble became a dance, and the soulsight kept rearranging. What is still looking for its place?" },
+  { src: "images/feather-inspection.jpg",
+    title: "Changing seasons caught the duck with feathers inspection. Or: What you can find transitioning into winter first snow in the warm darkness of your breast. Anyways, the gliding bear kept warm.",
+    meta: "White gel on black paper miniature, 3.5×5.5, 2026",
+    note: "The bear earned its glide." },
+  { src: "images/launch-rehearsed.jpg",
+    title: "The day of launching the Chrysopidae into rehearsed Mice play was crossed by Saturn rings running through Space rabbits discovery of the Goddess of the black hole. Or: Is it philosophy of the rehearsed ascent? Did we mess up planets, actually?",
+    meta: "White gel on black paper miniature, 3.5×5.5, 2026",
+    note: "The planets were only slightly rearranged." },
+];
+
+const OLD_WORKS = [
+  { src: "images/self-analysis.jpg", title: "An Attempt At Self Analysis or A Self Portrait Bust", meta: "Watercolor, pen, paper, June 25, 2024",
+    note: "A bust in the classic format — hollow crystal above, burning shoulders below; the sitter never appears." },
+  { src: "images/pulsation.jpg", title: "Fast Moving Pulsation or No apologies! For Who Was Late?", meta: "Watercolors, pen, paper, June 15, 2024",
+    note: "The coffee is served; the yellow disc hasn't woken up." },
+  { src: "images/butterfly.jpg", title: "Flickering of the iridescent blue in the sunlight or The butterfly effect.", meta: "Oil on canvas, 2024",
+    note: "The wings hint the flicker; the sunlight is flat, and the effect has no world." },
+  { src: "images/refraction.jpg", title: "The refraction of light, or The flickering of a thousand faces in the wing of a dragonfly.", meta: "Pastel and acrylic on cardboard, 297×420, December 2019",
+    note: "The faces are all in the flickering — none in the wing." },
+  { src: "images/calligraphy.jpg", title: "Calligraphy of the seasons", meta: "Pastel on cardboard, 297×420, December 2019",
+    note: "All the letters are here; the alphabet is not." },
+  { src: "images/in-the-stardust.jpg", title: "In the stardust.", meta: "White pen on black cover stock, A4, November 2018",
+    story: "Twistripears, at the edge of the universe, used chaos theory to tear free of order — and tore so thoroughly that he tore Nothing itself, accidentally opening the edge of the azure world and disrupting the snail's linear-progressive motion. Squaredots mocks his friend's pathetic attempts: \"I told you! Chaos within chaos gives birth to order!\" Meanwhile the fish are finishing off the leftovers of false assumptions and postulates — and scraps of truths — in the last instance.\n\nThe snail's linear-progressive motion has been reclassified as linear-regressive.",
+    note: "The snail travels, but the distance does not change." },
+  { src: "images/crowd.jpg", title: "Screams of a crowd", meta: "Watercolor, wax and pastel on cardboard, 300×420, 2014",
+    note: "A crowd where everyone is alone." },
+  { src: "images/siesta.jpg", title: "Siesta or the Falling Raven", meta: "Oil on canvas, 500×700, January 2014",
+    note: "All the blaze of a midday sleep, with nothing asleep in it — only the raven, falling." },
+  { src: "images/dawn.jpg", title: "Dawn by the lake with sleeping moths", meta: "Oil and acrylic on canvas, 600×400, November 2013",
+    note: "The moths hang here in the dew-dusted grey — painted, and unseeable until sunrise." },
+  { src: "images/mercy.jpg", title: "Mercy", meta: "Oil on canvas, 500×400, 2013",
+    note: "Here, light leaves no place for shadow." },
+  { src: "images/upsidedown.jpg", title: "The world was turned upside down", meta: "Oil on canvas, 700×500, 2013",
+    note: "A woman, and a man who is only the lightning's continuation — visible while it strikes; the windmill stays a blue silhouette outside the flash." },
+  { src: "images/dead.jpg", title: "Dead or Nothing to lose", meta: "Oil on canvas, 500×400, 2013",
+    note: "The light never leaves the doorway." },
+  { src: "images/nasturtiums.jpg", title: "Evening transformation of nasturtiums", meta: "Oil on wood, 1280×600, 2013",
+    note: "The flowers were transformed on a found wooden door — a threshold the evening never opens." },
+];
+
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbTitle = document.getElementById('lb-title');
+const lbMeta = document.getElementById('lb-meta');
+const lbStory = document.getElementById('lb-story');
+
+function metaHTML(w) {
+  const parts = [];
+  if (w.meta) parts.push(w.meta);
+  if (w.note) parts.push('(' + w.note + ')');
+  return parts.join('<br>');
+}
+
+function render(works, gridId) {
+  const grid = document.getElementById(gridId);
+  works.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const mh = metaHTML(w);
+    card.innerHTML = `<img src="${w.src}" alt="${w.title.replace(/"/g, '&quot;')}" loading="lazy"><h2>${w.title}</h2>${w.story ? `<p class="story">${w.story}</p>` : ''}${mh ? `<div class="meta">${mh}</div>` : ''}`;
+    card.addEventListener('click', () => {
+      lbImg.src = w.src; lbImg.alt = w.title;
+      lbTitle.textContent = w.title;
+      lbStory.textContent = w.story || '';
+      lbStory.style.display = w.story ? '' : 'none';
+      lbMeta.innerHTML = metaHTML(w);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    grid.appendChild(card);
+  });
+}
+
+render(NEW_WORKS, 'grid-new');
+render(OLD_WORKS, 'grid-old');
+
+function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('close').addEventListener('click', closeLb);
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+</script>
+</body>
+</html>
