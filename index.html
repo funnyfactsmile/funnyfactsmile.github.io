@@ -16,14 +16,14 @@
   .section-sub { text-align: center; color: var(--dim); font-style: italic; font-size: 0.9rem; margin-top: 8px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px; padding: 32px clamp(16px, 5vw, 72px) 40px; max-width: 1400px; margin: 0 auto; }
   .card { cursor: pointer; }
-  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;  transition: opacity .25s; background: #111; }
+  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: opacity .25s; background: #111; }
   .card:hover img { opacity: .82; }
   .card h2 { font-size: 0.98rem; font-weight: 400; margin-top: 12px; line-height: 1.45; }
   .card .meta { color: var(--dim); font-size: 0.82rem; margin-top: 6px; font-style: italic; }
   #lightbox { position: fixed; inset: 0; background: rgba(5,5,6,.96); display: none; align-items: center; justify-content: center; z-index: 50; padding: 24px; }
   #lightbox.open { display: flex; }
   #lightbox figure { max-width: 1100px; width: 100%; max-height: 92vh; overflow: auto; text-align: center; }
-  #lightbox img { max-width: 100%; max-height: 70vh; object-fit: contain;  }
+  #lightbox img { max-width: 100%; max-height: 70vh; object-fit: contain; }
   #lightbox figcaption { margin-top: 18px; }
   #lightbox figcaption h2 { font-size: 1.25rem; font-weight: 400; line-height: 1.5; max-width: 800px; margin: 0 auto; }
   #lightbox figcaption .meta { color: var(--dim); font-style: italic; margin-top: 10px; }
@@ -74,19 +74,19 @@ const NEW_WORKS = [
 ];
 
 const OLD_WORKS = [
-  { src: "images/refraction.jpg", title: "The refraction of light, or The flickering of a thousand faces in the wing of a dragonfly.", meta: "Pastel and acrylic on cardboard, 297×420, December 2019" },
-  { src: "images/dawn.jpg", title: "Dawn by the lake with sleeping moths", meta: "Oil and acrylic on canvas, 600×400, November 2013" },
-  { src: "images/in-the-stardust.jpg", title: "In the stardust.", meta: "" },
-  { src: "images/siesta.jpg", title: "Siesta or the Falling Raven", meta: "Oil on canvas, 500×700, January 2014" },
-  { src: "images/crowd.jpg", title: "Screams of a crowd", meta: "Watercolor, wax and pastel on cardboard, 300×420, 2014" },
   { src: "images/nasturtiums.jpg", title: "Evening transformation of nasturtiums", meta: "Oil on wood, 1280×600, 2013" },
   { src: "images/dead.jpg", title: "Dead or Nothing to lose", meta: "Oil on canvas, 500×400, 2013" },
-  { src: "images/calligraphy.jpg", title: "Calligraphy of the seasons", meta: "Pastel on cardboard, 297×420, December 2019" },
   { src: "images/upsidedown.jpg", title: "The world was turned upside down", meta: "Oil on canvas, 700×500, 2013" },
   { src: "images/mercy.jpg", title: "Mercy", meta: "Oil on canvas, 500×400, 2013" },
+  { src: "images/dawn.jpg", title: "Dawn by the lake with sleeping moths", meta: "Oil and acrylic on canvas, 600×400, November 2013" },
+  { src: "images/siesta.jpg", title: "Siesta or the Falling Raven", meta: "Oil on canvas, 500×700, January 2014" },
+  { src: "images/crowd.jpg", title: "Screams of a crowd", meta: "Watercolor, wax and pastel on cardboard, 300×420, 2014" },
+  { src: "images/in-the-stardust.jpg", title: "In the stardust.", meta: "White pen on black cover stock, A4, November 2018" },
+  { src: "images/calligraphy.jpg", title: "Calligraphy of the seasons", meta: "Pastel on cardboard, 297×420, December 2019" },
+  { src: "images/refraction.jpg", title: "The refraction of light, or The flickering of a thousand faces in the wing of a dragonfly.", meta: "Pastel and acrylic on cardboard, 297×420, December 2019" },
   { src: "images/butterfly.jpg", title: "Flickering of the iridescent blue in the sunlight or The butterfly effect.", meta: "Oil on canvas, 2024" },
-  { src: "images/self-analysis.jpg", title: "An Attempt At Self Analysis or A Self Portrait Bust", meta: "Watercolor, pen, paper, June 25, 2024" },
   { src: "images/pulsation.jpg", title: "Fast Moving Pulsation or No apologies! For Who Was Late?", meta: "Watercolors, pen, paper, June 15, 2024" },
+  { src: "images/self-analysis.jpg", title: "An Attempt At Self Analysis or A Self Portrait Bust", meta: "Watercolor, pen, paper, June 25, 2024" },
 ];
 
 const lb = document.getElementById('lightbox');
