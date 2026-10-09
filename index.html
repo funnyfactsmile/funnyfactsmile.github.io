@@ -16,14 +16,14 @@
   .section-sub { text-align: center; color: var(--dim); font-style: italic; font-size: 0.9rem; margin-top: 8px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px; padding: 32px clamp(16px, 5vw, 72px) 40px; max-width: 1400px; margin: 0 auto; }
   .card { cursor: pointer; }
-  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; border: 1px solid var(--line); transition: opacity .25s; background: #111; }
+  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;  transition: opacity .25s; background: #111; }
   .card:hover img { opacity: .82; }
   .card h2 { font-size: 0.98rem; font-weight: 400; margin-top: 12px; line-height: 1.45; }
   .card .meta { color: var(--dim); font-size: 0.82rem; margin-top: 6px; font-style: italic; }
   #lightbox { position: fixed; inset: 0; background: rgba(5,5,6,.96); display: none; align-items: center; justify-content: center; z-index: 50; padding: 24px; }
   #lightbox.open { display: flex; }
   #lightbox figure { max-width: 1100px; width: 100%; max-height: 92vh; overflow: auto; text-align: center; }
-  #lightbox img { max-width: 100%; max-height: 70vh; object-fit: contain; border: 1px solid var(--line); }
+  #lightbox img { max-width: 100%; max-height: 70vh; object-fit: contain;  }
   #lightbox figcaption { margin-top: 18px; }
   #lightbox figcaption h2 { font-size: 1.25rem; font-weight: 400; line-height: 1.5; max-width: 800px; margin: 0 auto; }
   #lightbox figcaption .meta { color: var(--dim); font-style: italic; margin-top: 10px; }
