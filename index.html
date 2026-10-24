@@ -14,13 +14,12 @@
   header p { color: var(--dim); margin-top: 10px; font-style: italic; font-size: 1rem; }
   .section-title { text-align: center; font-size: 1.35rem; font-weight: 400; letter-spacing: 0.12em; margin: 44px 20px 0; }
   .section-sub { text-align: center; color: var(--dim); font-style: italic; font-size: 0.9rem; margin-top: 8px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px; padding: 32px clamp(16px, 5vw, 72px) 40px; max-width: 1400px; margin: 0 auto; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 16px; padding: 20px clamp(12px, 4vw, 72px) 40px; max-width: 1400px; margin: 0 auto; }
   .card { cursor: pointer; }
-  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: opacity .25s; background: #111; }
+  .card img { width: 100%; aspect-ratio: 1/1; object-fit: contain; display: block; transition: opacity .25s; background: #141416; }
   .card:hover img { opacity: .82; }
-  .card h2 { font-size: 0.98rem; font-weight: 400; margin-top: 12px; line-height: 1.45; }
-  .card .meta { color: var(--dim); font-size: 0.82rem; margin-top: 6px; font-style: italic; }
-  .card .story { font-size: 0.9rem; line-height: 1.55; margin-top: 10px; white-space: pre-line; }
+  .card h2 { font-size: 0.85rem; font-weight: 400; margin-top: 8px; line-height: 1.4; }
+  header p.intro { font-style: normal; color: var(--ink); margin-top: 14px; font-size: 0.95rem; }
   #lightbox { position: fixed; inset: 0; background: rgba(5,5,6,.96); display: none; align-items: center; justify-content: center; z-index: 50; padding: 24px; }
   #lightbox.open { display: flex; }
   #lightbox figure { max-width: 1100px; width: 100%; max-height: 92vh; overflow: auto; text-align: center; }
@@ -37,12 +36,15 @@
 <header>
   <h1>AliceSmile</h1>
   <p>Portraits of invisible life</p>
+  <p class="intro">A collection of drawings and paintings. Scroll down — tap any picture to see it large with its story.</p>
 </header>
 <main>
   <section>
+    <h2 class="section-title">New works</h2>
     <div class="grid" id="grid-new"></div>
   </section>
   <section>
+    <h2 class="section-title">Old works</h2>
     <div class="grid" id="grid-old"></div>
   </section>
 </main>
@@ -150,13 +152,28 @@ function metaHTML(w) {
   return parts.join('<br>');
 }
 
+const SHORT = {
+  "images/the-coil-between-two-shores.jpg": "The Coil Between Two Shores",
+  "images/the-great-curl-takes-the-floor.jpg": "The Great Curl Takes the Floor",
+  "images/ribbon-tangle-two-on-watch.jpg": "Ribbon Tangle, Two on Watch",
+  "images/strawberry-ring-duty.jpg": "Strawberry Ring Duty",
+  "images/starfall-practice.jpg": "Starfall Practice",
+  "images/fourth-turn.jpg": "Fourth Turn",
+  "images/moonrider.jpg": "Moonrider",
+  "images/whirlwind-practice.jpg": "Star Vortex Travel",
+  "images/striped-dance-upload.jpg": "Thinstrip and Curlear",
+  "images/the-trade.jpg": "The Trade",
+  "images/feather-inspection.jpg": "Feather Inspection",
+  "images/launch-rehearsed.jpg": "Launch Rehearsed"
+};
+
 function render(works, gridId) {
   const grid = document.getElementById(gridId);
   works.forEach(w => {
     const card = document.createElement('div');
     card.className = 'card';
-    const mh = metaHTML(w);
-    card.innerHTML = `<img src="${w.src}" alt="${w.title.replace(/"/g, '&quot;')}" loading="lazy"><h2>${w.title}</h2>${w.story ? `<p class="story">${w.story}</p>` : ''}${mh ? `<div class="meta">${mh}</div>` : ''}`;
+    const short = SHORT[w.src] || w.title;
+    card.innerHTML = `<img src="${w.src}" alt="${short.replace(/"/g, '&quot;')}" loading="lazy"><h2>${short}</h2>`;
     card.addEventListener('click', () => {
       lbImg.src = w.src; lbImg.alt = w.title;
       lbTitle.textContent = w.title;
