@@ -19,6 +19,7 @@
   .card img { width: 100%; aspect-ratio: 1/1; object-fit: contain; display: block; transition: opacity .25s; background: #141416; }
   .card:hover img { opacity: .82; }
   .card h2 { font-size: 0.85rem; font-weight: 400; margin-top: 8px; line-height: 1.4; }
+  .card .teaser { font-size: 0.8rem; color: var(--dim); line-height: 1.45; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   header p.intro { font-style: normal; color: var(--ink); margin-top: 14px; font-size: 0.95rem; }
   #lightbox { position: fixed; inset: 0; background: rgba(5,5,6,.96); display: none; align-items: center; justify-content: center; z-index: 50; padding: 24px; }
   #lightbox.open { display: flex; }
@@ -40,11 +41,9 @@
 </header>
 <main>
   <section>
-    <h2 class="section-title">New works</h2>
     <div class="grid" id="grid-new"></div>
   </section>
   <section>
-    <h2 class="section-title">Old works</h2>
     <div class="grid" id="grid-old"></div>
   </section>
 </main>
@@ -173,7 +172,9 @@ function render(works, gridId) {
     const card = document.createElement('div');
     card.className = 'card';
     const short = SHORT[w.src] || w.title;
-    card.innerHTML = `<img src="${w.src}" alt="${short.replace(/"/g, '&quot;')}" loading="lazy"><h2>${short}</h2>`;
+    const rawTeaser = w.story || w.title || w.note || '';
+    const teaser = rawTeaser.replace(/<[^>]*>/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    card.innerHTML = `<img src="${w.src}" alt="${short.replace(/"/g, '&quot;')}" loading="lazy"><h2>${short}</h2>${teaser ? `<p class="teaser">${teaser}</p>` : ''}`;
     card.addEventListener('click', () => {
       lbImg.src = w.src; lbImg.alt = w.title;
       lbTitle.textContent = w.title;
